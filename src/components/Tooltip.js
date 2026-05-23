@@ -1,30 +1,21 @@
 import React, { useState } from 'react';
-import "../styles/App.css";
 
 const Tooltip = ({ text, children }) => {
-  // State to manage the visibility of the tooltip
   const [isVisible, setIsVisible] = useState(false);
 
-  // Event handlers to show/hide the tooltip
-  const handleMouseEnter = () => setIsVisible(true);
-  const handleMouseLeave = () => setIsVisible(false);
-
-  return (
-    <div 
-      className="tooltip" 
-      onMouseEnter={handleMouseEnter} 
-      onMouseLeave={handleMouseLeave}
-    >
-      {/* The element over which the tooltip appears */}
-      {children}
-      
-      {/* Conditionally render the tooltip text based on state */}
-      {isVisible && (
-        <div className="tooltiptext">
-          {text}
-        </div>
-      )}
-    </div>
+  // We clone the child element to inject the className, events, and tooltip text directly into it.
+  return React.cloneElement(
+    children, 
+    {
+      className: 'tooltip',
+      onMouseEnter: () => setIsVisible(true),
+      onMouseLeave: () => setIsVisible(false),
+    },
+    // We keep the original text of the child (e.g., "Hover over me")
+    children.props.children,
+    
+    // We conditionally append the tooltip text box INSIDE the child element
+    isVisible && <div className="tooltiptext">{text}</div>
   );
 };
 
