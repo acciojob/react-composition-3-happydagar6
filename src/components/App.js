@@ -1,6 +1,6 @@
 import React from 'react';
 import Tooltip from './Tooltip';
-import '../styles/App.css'; // Add this exact line to apply the styles!
+import '../styles/App.css'; // Make sure this path matches your CSS file's location
 
 const App = () => {
   return (
