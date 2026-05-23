@@ -1,19 +1,28 @@
-
+/* Container for the tooltip */
 .tooltip {
   position: relative;
   display: inline-block;
+  border-bottom: 1px dotted black; /* The dotted line seen in the video */
   cursor: pointer;
 }
 
+/* The actual tooltip box */
 .tooltiptext {
-  position: absolute;
-  bottom: 120%;
-  left: 50%;
-  transform: translateX(-50%);
   background-color: red;
   color: white;
-  padding: 8px 12px;
-  border-radius: 4px;
-  white-space: nowrap;
+  text-align: center;
+  padding: 10px;
+  border-radius: 5px;
   font-weight: bold;
+  font-size: 16px;
+
+  /* Position the tooltip above the text */
+  position: absolute;
+  z-index: 1;
+  bottom: 130%; /* Pushes it above the text */
+  left: 50%;
+  transform: translateX(-50%); /* Centers the red box perfectly */
+  
+  /* Give it a minimum width so the text fits nicely */
+  min-width: 180px;
 }
