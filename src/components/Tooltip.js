@@ -3,19 +3,30 @@ import React, { useState } from 'react';
 const Tooltip = ({ text, children }) => {
   const [isVisible, setIsVisible] = useState(false);
 
-  // We clone the child element to inject the className, events, and tooltip text directly into it.
+  // Handlers to show and hide the tooltip
+  const handleShow = () => setIsVisible(true);
+  const handleHide = () => setIsVisible(false);
+
+  // We clone the child element (e.g., the <h2> or <p>) to inject the logic
   return React.cloneElement(
-    children, 
+    children,
     {
-      className: 'tooltip',
-      onMouseEnter: () => setIsVisible(true),
-      onMouseLeave: () => setIsVisible(false),
+      // Ensures the original element gets the "tooltip" class
+      className: `tooltip ${children.props.className || ''}`.trim(),
+      
+      // Standard React hover events
+      onMouseEnter: handleShow,
+      onMouseLeave: handleHide,
+      
+      // Safety net for Cypress automated "fake" hovers!
+      onMouseOver: handleShow,
+      onMouseOut: handleHide,
     },
-    // We keep the original text of the child (e.g., "Hover over me")
-    children.props.children,
-    
-    // We conditionally append the tooltip text box INSIDE the child element
-    isVisible && <div className="tooltiptext">{text}</div>
+    // We wrap the original text AND the conditional tooltip inside a Fragment
+    <>
+      {children.props.children}
+      {isVisible && <div className="tooltiptext">{text}</div>}
+    </>
   );
 };
 
