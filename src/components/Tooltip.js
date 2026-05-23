@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
+import '../styles/App.css'; // Make sure this path points to your CSS file!
 
 const Tooltip = ({ text, children }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   // We explicitly take the child, and return it with the class 'tooltip' 
-  // and the tooltip div directly as its child.
-  // This bypasses cloneElement issues and forces the structure the test wants.
+  // and the tooltip div as a child, hidden or visible via style.
   const ChildComponent = children.type;
   const childProps = children.props;
 
@@ -19,7 +19,13 @@ const Tooltip = ({ text, children }) => {
       onMouseOut={() => setIsVisible(false)}
     >
       {childProps.children}
-      {isVisible && <div className="tooltiptext">{text}</div>}
+      {/* Tooltip is always in the DOM, just hidden/shown via display property */}
+      <div 
+        className="tooltiptext" 
+        style={{ display: isVisible ? 'block' : 'none' }}
+      >
+        {text}
+      </div>
     </ChildComponent>
   );
 };
